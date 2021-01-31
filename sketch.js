@@ -1,32 +1,38 @@
-var car,wall;
-var speed, weight;
+var fixedR , movingR , gameObj1, gameObj2, gameObj3;
 function setup() {
 
-  speed = random(55,90);
-  weight = random(400,1500);
+  createCanvas(1200,800);
+  fixedR = createSprite(200, 200, 50, 50);
+  movingR = createSprite(400, 200, 80, 30);
+  gameObj1 = createSprite(100,100,50,50);
+  gameObj2 = createSprite(200,400,50,50);
+  gameObj3 = createSprite(300,100,50,50);
+  gameObj4 = createSprite(400,400,50,50);
 
-  car = createSprite(50,200,50,50);
-  car.velocityX = speed;
+  gameObj1.shapeColor = "green";
+  gameObj2.shapeColor = "green";
+  gameObj3.shapeColor = "green";
+  gameObj4.shapeColor = "green";
 
- wall = createSprite(1500,200,60,height/2);
- wall.color (80,80,80);
+  gameObj2.velocityX = 3;
+  gameObj4.velocityX = -3;
 }
 
 function draw() {
-  background(255,255,255); 
-  if  (wall.x-car.x < (car.width+wall.width)/2) {
-    car.velocityX = 0;
-    
-    var deformation = 0.5 * weight * speed * speed/22509;
-  if (deformation > 180) {
-    car.shapeColor = color(250,0,0);
+  background(0,0,0);  
+  movingR.x = World.mouseX;
+  movingR.y = World.mouseY;
+  
+  if (isTouching(movingR, gameObj1)) {
+    movingR.shapeColor = "red";
+    gameObj1.shapeColor = "red";
   }
-  if (deformation < 180 && deformation > 100) {
-    car.shapeColor = color(230,230,0);
+  else {
+    movingR.shapeColor = "blue";
+    gameObj1.shapeColor = "green";
   }
- if (deformation < 180) {
-    car.shapeColor = color(0,255,0);
-  }
-}
+
+  bounceOff(gameObj2,gameObj4); 
+  
   drawSprites();
 }
